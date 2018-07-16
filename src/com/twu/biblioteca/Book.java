@@ -43,9 +43,4 @@ public class Book {
         available = !checkout;
         return successful;
     }
-
-    @Override
-    public String toString() {
-        return "'" + this.getTitle() + "' by " + this.getAuthor() + " (" + this.getYear() + ")";
-    }
 }

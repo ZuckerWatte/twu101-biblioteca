@@ -10,19 +10,13 @@ import static org.junit.Assert.assertEquals;
 public class ExampleTest {
 
     @Test
-    public void testWelcomeMessage() {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        assertEquals("Welcome to Biblioteca!", biblioteca.welcome());
-    }
-
-    @Test
     public void testListBooks() {
         Library library = new Library();
-        assertEquals(true, library.listAvailableBooks().isEmpty());
+        assertEquals(true, library.filterBooks().isEmpty());
         library.addBook("book1", "", 2000);
-        assertEquals("book1", library.listAvailableBooks().get(0).getTitle());
+        assertEquals("book1", library.filterBooks().get(0).getTitle());
         library.addBook("book2", "", 2000);
-        assertEquals("book2", library.listAvailableBooks().get(1).getTitle());
+        assertEquals("book2", library.filterBooks().get(1).getTitle());
     }
 
     @Test
@@ -38,7 +32,7 @@ public class ExampleTest {
         Library library = new Library();
         library.addBook("book1", "", 2000);
         library.checkoutBook("book1");
-        assertEquals(true, library.listAvailableBooks().isEmpty());
+        assertEquals(true, library.filterBooks().isEmpty());
     }
 
     @Test
@@ -95,10 +89,10 @@ public class ExampleTest {
         listOfStrings.add("a");
         listOfStrings.add("abc");
         listOfStrings.add("abc");
-        assertEquals(3, BibliotecaApp.getLongestString(listOfStrings.stream()));
+        assertEquals(3, Helper.getLongestString(listOfStrings.stream()));
         listOfStrings.add("abcde");
-        assertEquals(5, BibliotecaApp.getLongestString(listOfStrings.stream()));
+        assertEquals(5, Helper.getLongestString(listOfStrings.stream()));
         listOfStrings = new ArrayList<>();
-        assertEquals(0, BibliotecaApp.getLongestString(listOfStrings.stream()));
+        assertEquals(0, Helper.getLongestString(listOfStrings.stream()));
     }
 }

@@ -48,9 +48,9 @@ public class MenuOption {
 
     public void execute(BibliotecaApp bib) {
         if (!requestMsg.isEmpty()) {
-            BibliotecaApp.print("\n" + requestMsg);
-            String userinput = BibliotecaApp.readUserInput();
-            BibliotecaApp.print((boolean) function.apply(userinput) ? successMsg : failureMsg);
+            Helper.print("\n" + requestMsg);
+            String userinput = Helper.readUserInput();
+            Helper.print((boolean) function.apply(userinput) ? successMsg : failureMsg);
         } else {
             function.apply(bib);
         }
