@@ -2,6 +2,7 @@ package com.twu.biblioteca;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BibliotecaApp {
 
@@ -18,7 +19,7 @@ public class BibliotecaApp {
     }
 
     public List<Book> listBooks() {
-        return books;
+        return books.stream().filter(book -> book.isAvailable()).collect(Collectors.toList());
     }
 
     public void addBook(String title) {
