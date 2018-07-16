@@ -10,4 +10,12 @@ public class ExampleTest {
     public void testWelcomeMessage() {
         assertEquals("Welcome to Biblioteca!", BibliotecaApp.welcome());
     }
+
+    @Test
+    public void testListBooks() {
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        assertEquals(true, biblioteca.listBooks().isEmpty());
+        biblioteca.addBook("book1");
+        assertEquals(false, biblioteca.listBooks().isEmpty());
+    }
 }
