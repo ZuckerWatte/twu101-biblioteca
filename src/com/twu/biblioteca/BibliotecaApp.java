@@ -11,15 +11,20 @@ public class BibliotecaApp {
     public static final String MAINMENU_MSG = "Type option command";
     public static final String INVALIDOPT_MSG = "Select a valid option!";
     public static final String CHECKOUT_MSG = "Which book do you want to checkout?";
+    public static final String RETURN_MSG = "Which book do you want to return?";
     public static final String OPT_LISTBOOKS = "List Books";
     public static final String CMD_LISTBOOKS = "L";
-    public static final String OPT_CHECKOUT = "Checkout";
+    public static final String OPT_CHECKOUT = "Checkout Book";
     public static final String CMD_CHECKOUT = "C";
+    public static final String OPT_RETURN = "Return Book";
+    public static final String CMD_RETURN = "R";
     public static final String OPT_QUIT = "Quit";
     public static final String CMD_QUIT = "Q";
     public static final String SEPARATOR = " - ";
     public static final String CHECKOUT_SUCCESS_MSG = "Thank you enjoy the book!";
     public static final String CHECKOUT_FAILURE_MSG = "That book is not available.";
+    public static final String RETURN_SUCCESS_MSG = "Thank you for returning the book.";
+    public static final String RETURN_FAILURE_MSG = "That is not a valid book to return.";
 
     private Library library;
 
@@ -38,6 +43,7 @@ public class BibliotecaApp {
         print("\n" + MAINMENU_MSG);
         printMenuOption(CMD_LISTBOOKS, OPT_LISTBOOKS);
         printMenuOption(CMD_CHECKOUT, OPT_CHECKOUT);
+        printMenuOption(CMD_RETURN, OPT_RETURN);
         printMenuOption(CMD_QUIT, OPT_QUIT);
         String userinput = readUserInput();
         selectMenuOption(userinput);
@@ -56,11 +62,20 @@ public class BibliotecaApp {
             case CMD_CHECKOUT:
                 handleCheckout();
                 break;
+            case CMD_RETURN:
+                handleReturn();
+                break;
             case CMD_QUIT:
                 System.exit(0);
             default:
                 print(INVALIDOPT_MSG);
         }
+    }
+
+    private void handleReturn() {
+        print("\n" + RETURN_MSG);
+        String userinput = readUserInput();
+        print(library.returnBook(userinput) ? RETURN_SUCCESS_MSG : RETURN_FAILURE_MSG);
     }
 
     private void handleCheckout() {
