@@ -2,6 +2,7 @@ package com.twu.biblioteca;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BibliotecaApp {
@@ -24,6 +25,11 @@ public class BibliotecaApp {
 
     public void addBook(String title) {
         books.add(new Book(title));
+    }
+
+    public boolean checkout(String title) {
+        Optional<Book> opBook = books.stream().filter(book -> book.getTitle().equals(title)).findAny();
+        return opBook.isPresent() ? opBook.get().checkout() : false;
     }
 }
 

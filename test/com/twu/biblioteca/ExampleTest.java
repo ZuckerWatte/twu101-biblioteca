@@ -43,4 +43,12 @@ public class ExampleTest {
         assertEquals(true, book.checkout());
         assertEquals(false, book.checkout());
     }
+
+    @Test
+    public void testCheckoutBookFromLibrary() {
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        assertEquals(false, biblioteca.checkout("book1"));
+        biblioteca.addBook("book1");
+        assertEquals(true, biblioteca.checkout("book1"));
+    }
 }
