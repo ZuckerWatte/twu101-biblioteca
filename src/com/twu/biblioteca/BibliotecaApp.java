@@ -8,13 +8,18 @@ import java.util.stream.Stream;
 public class BibliotecaApp {
 
     public static final String WELCOME_MSG = "Welcome to Biblioteca!";
-    public static final String MAINMENU_MSG = "type option command";
-    public static final String INVALIDOPT_MSG = "select a valid option!";
+    public static final String MAINMENU_MSG = "Type option command";
+    public static final String INVALIDOPT_MSG = "Select a valid option!";
+    public static final String CHECKOUT_MSG = "Which book do you want to checkout?";
     public static final String OPT_LISTBOOKS = "List Books";
     public static final String CMD_LISTBOOKS = "L";
+    public static final String OPT_CHECKOUT = "Checkout";
+    public static final String CMD_CHECKOUT = "C";
     public static final String OPT_QUIT = "Quit";
     public static final String CMD_QUIT = "Q";
     public static final String SEPARATOR = " - ";
+    public static final String CHECKOUT_SUCCESS_MSG = "Thank you enjoy the book!";
+    public static final String CHECKOUT_FAILURE_MSG = "That book is not available.";
 
     private Library library;
 
@@ -32,9 +37,9 @@ public class BibliotecaApp {
     public void mainMenu() {
         print("\n" + MAINMENU_MSG);
         printMenuOption(CMD_LISTBOOKS, OPT_LISTBOOKS);
+        printMenuOption(CMD_CHECKOUT, OPT_CHECKOUT);
         printMenuOption(CMD_QUIT, OPT_QUIT);
-        Scanner scanner = new Scanner(System.in);
-        String userinput = scanner.nextLine();
+        String userinput = readUserInput();
         selectMenuOption(userinput);
         mainMenu();
     }
@@ -48,11 +53,25 @@ public class BibliotecaApp {
             case CMD_LISTBOOKS:
                 printLibrary();
                 break;
+            case CMD_CHECKOUT:
+                handleCheckout();
+                break;
             case CMD_QUIT:
                 System.exit(0);
             default:
                 print(INVALIDOPT_MSG);
         }
+    }
+
+    private void handleCheckout() {
+        print("\n" + CHECKOUT_MSG);
+        String userinput = readUserInput();
+        print(library.checkoutBook(userinput) ? CHECKOUT_SUCCESS_MSG : CHECKOUT_FAILURE_MSG);
+    }
+
+    private String readUserInput() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
     }
 
     public void printLibrary() {
