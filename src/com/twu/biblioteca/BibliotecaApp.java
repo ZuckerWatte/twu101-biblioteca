@@ -2,22 +2,57 @@ package com.twu.biblioteca;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 public class BibliotecaApp {
 
     public static final String WELCOME_MSG = "Welcome to Biblioteca!";
+    public static final String MAINMENU_MSG = "type option command";
+    public static final String INVALIDOPT_MSG = "select a valid option!";
+    public static final String OPT_LISTBOOKS = "List Books";
+    public static final String CMD_LISTBOOKS = "L";
+    public static final String OPT_QUIT = "Quit";
+    public static final String CMD_QUIT = "Q";
+    public static final String SEPARATOR = " - ";
+
     private Library library;
 
     public static void main(String[] args) {
         BibliotecaApp biblioteca = new BibliotecaApp();
         print(biblioteca.welcome());
         biblioteca.initLibrary();
-        biblioteca.printLibrary();
+        biblioteca.mainMenu();
     }
 
     public String welcome() {
         return WELCOME_MSG;
+    }
+
+    public void mainMenu() {
+        print("\n" + MAINMENU_MSG);
+        printMenuOption(CMD_LISTBOOKS, OPT_LISTBOOKS);
+        printMenuOption(CMD_QUIT, OPT_QUIT);
+        Scanner scanner = new Scanner(System.in);
+        String userinput = scanner.nextLine();
+        selectMenuOption(userinput);
+        mainMenu();
+    }
+
+    private void printMenuOption(String cmd, String opt) {
+        print(cmd + SEPARATOR + opt);
+    }
+
+    private void selectMenuOption(String userinput) {
+        switch (userinput.toUpperCase()) {
+            case CMD_LISTBOOKS:
+                printLibrary();
+                break;
+            case CMD_QUIT:
+                System.exit(0);
+            default:
+                print(INVALIDOPT_MSG);
+        }
     }
 
     public void printLibrary() {
@@ -30,7 +65,7 @@ public class BibliotecaApp {
     }
 
     private void printBooks(int longestTitle, int longestAuthor, List<Book> listOfBooks) {
-        for(Book book : listOfBooks) {
+        for (Book book : listOfBooks) {
             printBookListLine(longestTitle, longestAuthor, book.getTitle(), book.getAuthor(), book.getYear() + "");
         }
     }
@@ -50,7 +85,7 @@ public class BibliotecaApp {
     }
 
     private static void appendSpaces(StringBuilder builder, int numSpaces) {
-        for(int i = 0; i < numSpaces; i++)
+        for (int i = 0; i < numSpaces; i++)
             builder.append(" ");
     }
 
