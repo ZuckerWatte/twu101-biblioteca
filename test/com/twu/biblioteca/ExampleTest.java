@@ -16,6 +16,9 @@ public class ExampleTest {
         BibliotecaApp biblioteca = new BibliotecaApp();
         assertEquals(true, biblioteca.listBooks().isEmpty());
         biblioteca.addBook("book1");
-        assertEquals(false, biblioteca.listBooks().isEmpty());
+        assertEquals("book1", biblioteca.listBooks().get(0).getTitle());
+        biblioteca.addBook("book2");
+        assertEquals("book2", biblioteca.listBooks().get(1).getTitle());
+
     }
 }

@@ -21,8 +21,8 @@ public class BibliotecaApp {
         return books;
     }
 
-    public void addBook(String book) {
-        books.add(new Book());
+    public void addBook(String title) {
+        books.add(new Book(title));
     }
 }
 
