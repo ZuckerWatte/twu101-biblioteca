@@ -19,8 +19,16 @@ public class Book {
     }
 
     public boolean checkout() {
-        boolean checkoutSuccessful = available;
-        available = false;
-        return checkoutSuccessful;
+        return changeAvailability(true);
+    }
+
+    public boolean giveBack() {
+        return changeAvailability(false);
+    }
+
+    private boolean changeAvailability(boolean checkout) {
+        boolean successful = checkout ? available : !available;
+        available = !checkout;
+        return successful;
     }
 }

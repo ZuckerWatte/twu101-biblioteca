@@ -27,9 +27,17 @@ public class BibliotecaApp {
         books.add(new Book(title));
     }
 
-    public boolean checkout(String title) {
+    public boolean checkoutBook(String title) {
+        return handleBooks(title, true);
+    }
+
+    public boolean returnBook(String title) {
+        return handleBooks(title, false);
+    }
+
+    private boolean handleBooks(String title, boolean checkout) {
         Optional<Book> opBook = books.stream().filter(book -> book.getTitle().equals(title)).findAny();
-        return opBook.isPresent() ? opBook.get().checkout() : false;
+        return opBook.isPresent() && (checkout ? opBook.get().checkout() : opBook.get().giveBack());
     }
 }
 

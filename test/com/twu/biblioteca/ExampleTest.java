@@ -2,6 +2,7 @@ package com.twu.biblioteca;
 
 
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
 public class ExampleTest {
@@ -33,7 +34,7 @@ public class ExampleTest {
     public void testOnlyAvailableBooksInList() {
         BibliotecaApp biblioteca = new BibliotecaApp();
         biblioteca.addBook("book1");
-        biblioteca.listAvailableBooks().get(0).checkout();
+        biblioteca.checkoutBook("book1");
         assertEquals(true, biblioteca.listAvailableBooks().isEmpty());
     }
 
@@ -47,8 +48,33 @@ public class ExampleTest {
     @Test
     public void testCheckoutBookFromLibrary() {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        assertEquals(false, biblioteca.checkout("book1"));
+        assertEquals(false, biblioteca.checkoutBook("book1"));
         biblioteca.addBook("book1");
-        assertEquals(true, biblioteca.checkout("book1"));
+        assertEquals(true, biblioteca.checkoutBook("book1"));
+    }
+
+    @Test
+    public void testReturnBooks() {
+        Book book = new Book("book1");
+        book.checkout();
+        book.giveBack();
+        assertEquals(true, book.isAvailable());
+    }
+
+    @Test
+    public void testSuccessfulReturn() {
+        Book book = new Book("book1");
+        assertEquals(false, book.giveBack());
+        book.checkout();
+        assertEquals(true, book.giveBack());
+    }
+
+    @Test
+    public void testReturnBookToLibrary() {
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        assertEquals(false, biblioteca.returnBook("book1"));
+        biblioteca.addBook("book1");
+        biblioteca.checkoutBook("book1");
+        assertEquals(true, biblioteca.returnBook("book1"));
     }
 }
