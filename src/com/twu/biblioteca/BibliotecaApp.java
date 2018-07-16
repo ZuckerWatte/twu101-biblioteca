@@ -18,7 +18,7 @@ public class BibliotecaApp {
         return WELCOME_MSG;
     }
 
-    public List<Book> listBooks() {
+    public List<Book> listAvailableBooks() {
         return books.stream().filter(book -> book.isAvailable()).collect(Collectors.toList());
     }
 

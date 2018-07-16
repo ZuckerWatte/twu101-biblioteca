@@ -14,11 +14,11 @@ public class ExampleTest {
     @Test
     public void testListBooks() {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        assertEquals(true, biblioteca.listBooks().isEmpty());
+        assertEquals(true, biblioteca.listAvailableBooks().isEmpty());
         biblioteca.addBook("book1");
-        assertEquals("book1", biblioteca.listBooks().get(0).getTitle());
+        assertEquals("book1", biblioteca.listAvailableBooks().get(0).getTitle());
         biblioteca.addBook("book2");
-        assertEquals("book2", biblioteca.listBooks().get(1).getTitle());
+        assertEquals("book2", biblioteca.listAvailableBooks().get(1).getTitle());
     }
 
     @Test
@@ -30,11 +30,17 @@ public class ExampleTest {
     }
 
     @Test
-    public void testCheckedOutBooksNotInList() {
+    public void testOnlyAvailableBooksInList() {
         BibliotecaApp biblioteca = new BibliotecaApp();
         biblioteca.addBook("book1");
-        assertEquals("book1", biblioteca.listBooks().get(0).getTitle());
-        biblioteca.listBooks().get(0).checkout();
-        assertEquals(true, biblioteca.listBooks().isEmpty());
+        biblioteca.listAvailableBooks().get(0).checkout();
+        assertEquals(true, biblioteca.listAvailableBooks().isEmpty());
+    }
+
+    @Test
+    public void testSuccessfulCheckout() {
+        Book book = new Book("book1");
+        assertEquals(true, book.checkout());
+        assertEquals(false, book.checkout());
     }
 }

@@ -18,7 +18,9 @@ public class Book {
         return available;
     }
 
-    public void checkout() {
+    public boolean checkout() {
+        boolean checkoutSuccessful = available;
         available = false;
+        return checkoutSuccessful;
     }
 }
