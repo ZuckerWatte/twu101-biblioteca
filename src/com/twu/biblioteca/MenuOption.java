@@ -10,50 +10,34 @@ public class MenuOption {
     private String command;
     private String successMsg;
     private String failureMsg;
-    private String requestMsg;
-    private Function function;
+    private String inquiryMsg;
+    private Function<String, Boolean> function;
 
-    public MenuOption(String name, String command, Function function) {
-        this(name, command, "", "", "", function);
-    }
-
-    public MenuOption(String name, String command, String successMsg, String failureMsg, String requestMsg, Function function) {
+    public MenuOption(String name, String command, String successMsg, String failureMsg, String inquiryMsg, Function<String, Boolean> function) {
         this.name = name;
         this.command = command;
         this.successMsg = successMsg;
         this.failureMsg = failureMsg;
-        this.requestMsg = requestMsg;
+        this.inquiryMsg = inquiryMsg;
         this.function = function;
     }
 
-    public String getName() {
-        return name;
+    public MenuOption(String name, String command, String successMsg, String failureMsg, Function<String, Boolean> function) {
+        this(name, command, successMsg, failureMsg, "", function);
+    }
+
+    public MenuOption(String name, String command, Function<String, Boolean> function) {
+        this(name, command, "", "", function);
+    }
+
+    public void execute() {
+        Helper.print(inquiryMsg);
+        String userInput = inquiryMsg.isEmpty() ? "" : Helper.readUserInput();
+        Helper.print(function.apply(userInput) ? successMsg : failureMsg);
     }
 
     public String getCommand() {
         return command;
-    }
-
-    public String getSuccessMsg() {
-        return successMsg;
-    }
-
-    public String getFailureMsg() {
-        return failureMsg;
-    }
-
-    public String getRequestMsg() {
-        return requestMsg;
-    }
-
-    public void execute(BibliotecaApp bib) {
-        if (!requestMsg.isEmpty()) {
-            Helper.print("\n" + requestMsg);
-            String userinput = Helper.readUserInput();
-            Helper.print((boolean) function.apply(userinput) ? successMsg : failureMsg);
-        } else {
-            function.apply(bib);
-        }
     }
 
     @Override

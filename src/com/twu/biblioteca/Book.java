@@ -14,6 +14,20 @@ public class Book {
         this.available = true;
     }
 
+    public boolean checkout() {
+        return changeAvailability(true);
+    }
+
+    public boolean giveBack() {
+        return changeAvailability(false);
+    }
+
+    private boolean changeAvailability(boolean checkout) {
+        boolean successful = checkout ? available : !available;
+        available = !checkout;
+        return successful;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -28,19 +42,5 @@ public class Book {
 
     public boolean isAvailable() {
         return available;
-    }
-
-    public boolean checkout() {
-        return changeAvailability(true);
-    }
-
-    public boolean giveBack() {
-        return changeAvailability(false);
-    }
-
-    private boolean changeAvailability(boolean checkout) {
-        boolean successful = checkout ? available : !available;
-        available = !checkout;
-        return successful;
     }
 }

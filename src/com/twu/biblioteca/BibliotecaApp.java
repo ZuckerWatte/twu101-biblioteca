@@ -20,27 +20,6 @@ public class BibliotecaApp {
         biblioteca.mainMenu();
     }
 
-    public void mainMenu() {
-        Helper.print("\n" + MAINMENU_MSG);
-        menuOptions.forEach(m -> Helper.print(m.toString()));
-        String userinput = Helper.readUserInput();
-        selectMenuOption(userinput);
-        mainMenu();
-    }
-
-    private void selectMenuOption(String userinput) {
-        Optional<MenuOption> menuOption = menuOptions.stream().filter(m -> m.getCommand().equals(userinput)).findAny();
-        if (menuOption.isPresent()) {
-            menuOption.get().execute(this);
-        } else {
-            Helper.print(INVALIDOPT_MSG);
-        }
-    }
-
-    public Library getLibrary() {
-        return library;
-    }
-
     private void initLibrary() {
         library = new Library();
         library.addBook("Harry Potter", "JK Rowling", 1997);
@@ -50,15 +29,34 @@ public class BibliotecaApp {
 
     private void initMenuOptions() {
         menuOptions = new ArrayList<>();
-        menuOptions.add(new MenuOption("List Books", "L",
-                (Object bib) -> {((BibliotecaApp) bib).getLibrary().listAvailableBooks(); return true;}));
+        menuOptions.add(new MenuOption("List Books", "L", "These are all books that are available.","There are no books available.",
+                (String s) -> library.listAvailableBooks()));
         menuOptions.add(new MenuOption("Checkout Book", "C", "Thank you enjoy the book!",
                 "That book is not available.", "Which book do you want to checkout?",
-                (Object bookName) -> library.checkoutBook((String) bookName)));
+                (String bookName) -> library.checkoutBook(bookName)));
         menuOptions.add(new MenuOption("Return Book", "R", "Thank you for returning the book!",
                 "That is not a valid book to return.", "Which book do you want to return?",
-                (Object bookName) -> library.returnBook((String) bookName)));
+                (String bookName) -> library.returnBook(bookName)));
         menuOptions.add(new MenuOption("Quit", "Q",
-                (Object o) -> {System.exit(0); return true;}));
+                (String s) -> this.exit()));
     }
+
+    public void mainMenu() {
+        Helper.print("\n" + MAINMENU_MSG);
+        menuOptions.forEach(m -> Helper.print(m.toString()));
+        String upperCaseUserInput = Helper.readUserInput().toUpperCase();
+        selectMenuOption(upperCaseUserInput);
+        mainMenu();
+    }
+
+    private void selectMenuOption(String upperCaseUserInput) {
+        Optional<MenuOption> menuOption = menuOptions.stream().filter(m -> m.getCommand().equals(upperCaseUserInput)).findAny();
+        menuOption.ifPresentOrElse(mo -> mo.execute(), () -> Helper.print(INVALIDOPT_MSG));
+    }
+
+    public boolean exit() {
+        System.exit(0);
+        return false;
+    }
+
 }

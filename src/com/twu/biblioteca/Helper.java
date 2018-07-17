@@ -11,12 +11,7 @@ public class Helper {
         return scanner.nextLine();
     }
 
-    public static void appendSpaces(StringBuilder builder, int numSpaces) {
-        for (int i = 0; i < numSpaces; i++)
-            builder.append(" ");
-    }
-
-    public static int getLongestString(Stream<String> streamOfStrings) {
+    public static int getLongestStringLength(Stream<String> streamOfStrings) {
         return streamOfStrings.max(Comparator.comparing(String::length)).orElse("").length();
     }
 

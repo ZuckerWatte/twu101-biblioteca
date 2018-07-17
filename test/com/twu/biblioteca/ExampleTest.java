@@ -12,11 +12,11 @@ public class ExampleTest {
     @Test
     public void testListBooks() {
         Library library = new Library();
-        assertEquals(true, library.filterBooks().isEmpty());
+        assertEquals(true, library.getAvailableBooks().isEmpty());
         library.addBook("book1", "", 2000);
-        assertEquals("book1", library.filterBooks().get(0).getTitle());
+        assertEquals("book1", library.getAvailableBooks().get(0).getTitle());
         library.addBook("book2", "", 2000);
-        assertEquals("book2", library.filterBooks().get(1).getTitle());
+        assertEquals("book2", library.getAvailableBooks().get(1).getTitle());
     }
 
     @Test
@@ -32,7 +32,7 @@ public class ExampleTest {
         Library library = new Library();
         library.addBook("book1", "", 2000);
         library.checkoutBook("book1");
-        assertEquals(true, library.filterBooks().isEmpty());
+        assertEquals(true, library.getAvailableBooks().isEmpty());
     }
 
     @Test
@@ -89,10 +89,10 @@ public class ExampleTest {
         listOfStrings.add("a");
         listOfStrings.add("abc");
         listOfStrings.add("abc");
-        assertEquals(3, Helper.getLongestString(listOfStrings.stream()));
+        assertEquals(3, Helper.getLongestStringLength(listOfStrings.stream()));
         listOfStrings.add("abcde");
-        assertEquals(5, Helper.getLongestString(listOfStrings.stream()));
+        assertEquals(5, Helper.getLongestStringLength(listOfStrings.stream()));
         listOfStrings = new ArrayList<>();
-        assertEquals(0, Helper.getLongestString(listOfStrings.stream()));
+        assertEquals(0, Helper.getLongestStringLength(listOfStrings.stream()));
     }
 }
