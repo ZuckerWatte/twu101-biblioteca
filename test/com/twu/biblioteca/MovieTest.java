@@ -7,9 +7,11 @@ import static org.junit.Assert.assertEquals;
 public class MovieTest {
 
     @Test
-    public void testCheckoutMovie() {
-        Movie movie = new Movie("movie1", 2000, "dir1", "1");
-        movie.checkout();
-        assertEquals(false, movie.isAvailable());
+    public void testGetMovieDetails() {
+        Movie movie = new Movie("Harry Potter", 2001, "Chris Columbus", "3");
+        assertEquals("Harry Potter", movie.getTitle());
+        assertEquals(2001, movie.getYear());
+        assertEquals("Chris Columbus", movie.getDirector());
+        assertEquals("3", movie.getRating());
     }
 }

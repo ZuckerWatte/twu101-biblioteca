@@ -22,34 +22,40 @@ public class Library {
 
 
     public boolean listAvailableBooks() {
-        List<Book> listOfBooks = filterForAvailableBooks();
-        if (listOfBooks.isEmpty())
+        return listAvailableMedia(books);
+    }
+
+    public boolean listAvailableMovies() {
+        return listAvailableMedia(movies);
+    }
+
+    public boolean listAvailableMedia(List<? extends Media> listOfMedia) {
+        List<? extends Media> listOfAvailableMedia = filterForAvailableMedia(listOfMedia);
+        if (listOfAvailableMedia.isEmpty())
             return false;
 
-        printBookTable(listOfBooks);
+        printMediaTable(listOfAvailableMedia);
         return true;
     }
 
-    public List<Movie> filterForAvailableMovies() {
-        return movies;
+    public List<? extends Media> filterForAvailableMedia(List<? extends Media> media) {
+        return media.stream().filter(movie -> movie.isAvailable()).collect(Collectors.toList());
     }
 
-    public List<Book> filterForAvailableBooks() {
-        return books.stream().filter(book -> book.isAvailable()).collect(Collectors.toList());
+    private void printMediaTable(List<? extends Media> listOfMedia) {
+        String[] mediaPropertyIDs = listOfMedia.get(0).getPropertyIDs();
+        int[] longestMediaProperty = new int[mediaPropertyIDs.length];
+        for (int i = 0; i < mediaPropertyIDs.length; i++) {
+            String currentMediaPropertyID = mediaPropertyIDs[i];
+            longestMediaProperty[i] = Math.max(Helper.getLongestStringLength(listOfMedia.stream().map(media -> media.getPropertyByID(currentMediaPropertyID))), currentMediaPropertyID.length());
+        }
+        printMediaRow(longestMediaProperty, mediaPropertyIDs);
+        listOfMedia.forEach(media -> printMediaRow(longestMediaProperty, media.getProperties()));
     }
 
-    private void printBookTable(List<Book> listOfBooks) {
-        int longestTitle = Helper.getLongestStringLength(listOfBooks.stream().map(book -> book.getTitle()));
-        int longestAuthor = Helper.getLongestStringLength(listOfBooks.stream().map(book -> book.getAuthor()));
-        printBookRow(longestTitle, longestAuthor, "Title", "Author", "Year");
-        listOfBooks.forEach(book -> printBookRow(longestTitle, longestAuthor, book.getTitle(), book.getAuthor(), book.getYear() + ""));
-    }
-
-    private void printBookRow(int longestTitle, int longestAuthor, String title, String author, String year) {
+    private void printMediaRow(int[] longestProperties, String[] properties) {
         StringBuilder builder = new StringBuilder();
-        builder.append(propertyWithSpaces(longestTitle, title));
-        builder.append(propertyWithSpaces(longestAuthor, author));
-        builder.append(year);
+        IntStream.range(0, longestProperties.length).forEach(i -> builder.append(propertyWithSpaces(longestProperties[i], properties[i])));
         Helper.print(builder.toString());
     }
 
@@ -60,17 +66,39 @@ public class Library {
 
 
     public boolean checkoutBook(String title) {
-        return handleBookTransaction(title, (Object book) -> ((Book) book).checkout());
+        return checkoutMedia(title, books);
+    }
+
+    public boolean checkoutMovie(String title) {
+        return checkoutMedia(title, movies);
     }
 
     public boolean returnBook(String title) {
-        return handleBookTransaction(title, (Object book) -> ((Book) book).giveBack());
+        return returnMedia(title, books);
     }
 
-    private boolean handleBookTransaction(String title, Function function) {
-        Optional<Book> opBook = books.stream().filter(book -> book.getTitle().equals(title)).findAny();
-        return opBook.isPresent() && (Boolean) function.apply(opBook.get());
+    public boolean returnMovie(String title) {
+        return returnMedia(title, movies);
     }
 
+    private boolean checkoutMedia(String title, List<? extends Media> listOfMedia) {
+        return handleMediaTransaction(title, (Media media) -> media.checkout(), listOfMedia);
+    }
 
+    private boolean returnMedia(String title, List<? extends Media> listOfMedia) {
+        return handleMediaTransaction(title, (Media media) -> media.giveBack(), listOfMedia);
+    }
+
+    private boolean handleMediaTransaction(String title, Function<Media, Boolean> function, List<? extends Media> listOfMedia) {
+        Optional<? extends Media> opMedia = listOfMedia.stream().filter(media -> media.getTitle().equals(title)).findAny();
+        return opMedia.isPresent() && function.apply(opMedia.get());
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
 }

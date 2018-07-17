@@ -175,3 +175,28 @@
   And I want to be informed about the problem.
 
   _Completed_
+
+## List Movies
+  As a customer,
+  I would like to see a list of available movies,
+  so that I can browse for a movie that I might check-out.
+
+  ### Scenario 1:
+  Given I chose to see the movie list
+  When there is an available movie
+  Then I want to see it listed with all available details.
+
+  ### Scenario 2:
+  Given I chose to see the movie list
+  When there is no available movie
+  Then I want to be informed about that.
+
+## Check-out Movie
+  As a customer,
+  I would like to check out a movie from the library,
+  so I can enjoy it at home.
+
+  ### Scenario 1:
+  Given I found a movie I want is available
+  When I checkout the movie
+  Then the checkout should be successful.

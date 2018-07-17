@@ -1,46 +1,39 @@
 package com.twu.biblioteca;
 
-public class Book {
+public class Book extends Media {
 
-    private String title;
     private String author;
-    private int year;
-    private boolean available;
 
     public Book(String title, String author, int year) {
-        this.title = title;
+        super(title, year);
         this.author = author;
-        this.year = year;
-        this.available = true;
-    }
-
-    public boolean checkout() {
-        return changeAvailability(true);
-    }
-
-    public boolean giveBack() {
-        return changeAvailability(false);
-    }
-
-    private boolean changeAvailability(boolean checkout) {
-        boolean successful = checkout ? available : !available;
-        available = !checkout;
-        return successful;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public int getYear() {
-        return year;
+    public String getPropertyByID(String propertyID) {
+        switch(propertyID) {
+            case "Title":
+                return this.getTitle();
+
+            case "Author":
+                return this.getAuthor();
+
+            case "Year":
+                return this.getYear() + "";
+
+            default:
+                return "";
+        }
     }
 
-    public boolean isAvailable() {
-        return available;
+    public String[] getProperties() {
+        return new String[]{this.getTitle(), this.getAuthor(), this.getYear() + ""};
+    }
+
+    public String[] getPropertyIDs() {
+        return new String[]{"Title", "Author", "Year"};
     }
 }

@@ -12,11 +12,11 @@ public class LibraryTest {
     @Test
     public void testListBooks() {
         Library library = new Library();
-        assertEquals(true, library.filterForAvailableBooks().isEmpty());
+        assertEquals(true, library.filterForAvailableMedia(library.getBooks()).isEmpty());
         library.addBook("book1", "", 2000);
-        assertEquals("book1", library.filterForAvailableBooks().get(0).getTitle());
+        assertEquals("book1", library.filterForAvailableMedia(library.getBooks()).get(0).getTitle());
         library.addBook("book2", "", 2000);
-        assertEquals("book2", library.filterForAvailableBooks().get(1).getTitle());
+        assertEquals("book2", library.filterForAvailableMedia(library.getBooks()).get(1).getTitle());
     }
 
     @Test
@@ -24,7 +24,7 @@ public class LibraryTest {
         Library library = new Library();
         library.addBook("book1", "", 2000);
         library.checkoutBook("book1");
-        assertEquals(true, library.filterForAvailableBooks().isEmpty());
+        assertEquals(true, library.filterForAvailableMedia(library.getBooks()).isEmpty());
     }
 
     @Test
@@ -49,17 +49,19 @@ public class LibraryTest {
     @Test
     public void testListMovies() {
         Library library = new Library();
-        assertEquals(true, library.filterForAvailableMovies().isEmpty());
+        assertEquals(true, library.filterForAvailableMedia(library.getMovies()).isEmpty());
         library.addMovie("movie1", 2000, "director1", "1");
-        assertEquals("movie1", library.filterForAvailableMovies().get(0).getTitle());
+        assertEquals("movie1", library.filterForAvailableMedia(library.getMovies()).get(0).getTitle());
         library.addMovie("movie2", 2000, "director1", "1");
-        assertEquals("movie2", library.filterForAvailableMovies().get(1).getTitle());
+        assertEquals("movie2", library.filterForAvailableMedia(library.getMovies()).get(1).getTitle());
     }
 
     @Test
     public void testOnlyAvailableMovies() {
         Library library = new Library();
         library.addMovie("movie1", 2000, "director1", "1");
-        assertEquals(true, library.filterForAvailableMovies().get(0).isAvailable());
+        assertEquals(true, library.filterForAvailableMedia(library.getMovies()).get(0).isAvailable());
+        library.checkoutMovie("movie1");
+        assertEquals(true, library.filterForAvailableMedia(library.getMovies()).isEmpty());
     }
 }
