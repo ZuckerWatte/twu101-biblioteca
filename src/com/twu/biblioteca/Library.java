@@ -10,14 +10,19 @@ import java.util.stream.IntStream;
 public class Library {
 
     private List<Book> books = new ArrayList<>();
+    private List<Movie> movies = new ArrayList<>();
 
     public void addBook(String title, String author, int year) {
         books.add(new Book(title, author, year));
     }
 
+    public void addMovie(String title, int year, String director, String rating) {
+        movies.add(new Movie(title, year, director, rating));
+    }
+
 
     public boolean listAvailableBooks() {
-        List<Book> listOfBooks = getAvailableBooks();
+        List<Book> listOfBooks = filterForAvailableBooks();
         if (listOfBooks.isEmpty())
             return false;
 
@@ -25,7 +30,11 @@ public class Library {
         return true;
     }
 
-    public List<Book> getAvailableBooks() {
+    public List<Movie> filterForAvailableMovies() {
+        return movies;
+    }
+
+    public List<Book> filterForAvailableBooks() {
         return books.stream().filter(book -> book.isAvailable()).collect(Collectors.toList());
     }
 

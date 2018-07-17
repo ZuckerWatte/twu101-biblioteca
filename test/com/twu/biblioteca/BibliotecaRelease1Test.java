@@ -7,16 +7,16 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class ExampleTest {
+public class BibliotecaRelease1Test {
 
     @Test
     public void testListBooks() {
         Library library = new Library();
-        assertEquals(true, library.getAvailableBooks().isEmpty());
+        assertEquals(true, library.filterForAvailableBooks().isEmpty());
         library.addBook("book1", "", 2000);
-        assertEquals("book1", library.getAvailableBooks().get(0).getTitle());
+        assertEquals("book1", library.filterForAvailableBooks().get(0).getTitle());
         library.addBook("book2", "", 2000);
-        assertEquals("book2", library.getAvailableBooks().get(1).getTitle());
+        assertEquals("book2", library.filterForAvailableBooks().get(1).getTitle());
     }
 
     @Test
@@ -32,7 +32,7 @@ public class ExampleTest {
         Library library = new Library();
         library.addBook("book1", "", 2000);
         library.checkoutBook("book1");
-        assertEquals(true, library.getAvailableBooks().isEmpty());
+        assertEquals(true, library.filterForAvailableBooks().isEmpty());
     }
 
     @Test
