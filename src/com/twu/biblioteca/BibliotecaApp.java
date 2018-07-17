@@ -22,12 +22,12 @@ public class BibliotecaApp {
 
     private void initLibrary() {
         library = new Library();
-        library.addBook("Harry Potter", "JK Rowling", 1997);
-        library.addBook("Lord of the Rings", "JRR Tolkien", 1954);
-        library.addBook("Book 3", "Jack Doe", 2001);
-        library.addMovie("Pulp Fiction", 1994, "Quentin Tarantino", "9");
-        library.addMovie("Lord of the Rings", 2001,"Peter Jackson", "4");
-        library.addMovie("Movie 3", 2000, "Arnie", "unrated");
+        library.addBook("Harry Potter", "1997", "JK Rowling");
+        library.addBook("Lord of the Rings", "1954", "JRR Tolkien");
+        library.addBook("Book 3", "2001", "Jack Doe");
+        library.addMovie("Pulp Fiction", "1994", "Quentin Tarantino", "9");
+        library.addMovie("Lord of the Rings", "2001","Peter Jackson", "4");
+        library.addMovie("Movie 3", "2000", "Arnie", "unrated");
     }
 
     private void initMenuOptions() {

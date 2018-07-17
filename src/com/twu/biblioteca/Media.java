@@ -1,22 +1,18 @@
 package com.twu.biblioteca;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public abstract class Media {
-    private String title;
-    private int year;
-    protected boolean available;
 
-    public Media(String title, int year) {
-        this.title = title;
-        this.year = year;
+    protected List<Property> propertyList = new ArrayList<>();
+    private boolean available;
+
+    public Media(String title, String year) {
+        this.propertyList.add(new Property("Title", title));
+        this.propertyList.add(new Property("Year", year));
         this.available = true;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getYear() {
-        return year;
     }
 
     public boolean isAvailable() {
@@ -37,7 +33,16 @@ public abstract class Media {
         return successful;
     }
 
-    public abstract String[] getPropertyIDs();
-    public abstract String[] getProperties();
-    public abstract String getPropertyByID(String propertyID);
+    public List<String> getPropertyIDs() {
+        return this.propertyList.stream().map(property -> property.getIdentifier()).collect(Collectors.toList());
+    }
+
+    public List<String> getProperties() {
+        return this.propertyList.stream().map(property -> property.getValue()).collect(Collectors.toList());
+    }
+
+    public String getPropertyByID(String propertyID) {
+        return this.propertyList.stream().filter(property -> property.getIdentifier().equals(propertyID))
+                .map(property -> property.getValue()).findAny().orElse("");
+    }
 }

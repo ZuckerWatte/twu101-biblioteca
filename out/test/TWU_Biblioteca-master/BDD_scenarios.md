@@ -191,6 +191,8 @@
   When there is no available movie
   Then I want to be informed about that.
 
+  _Completed_
+
 ## Check-out Movie
   As a customer,
   I would like to check out a movie from the library,
@@ -200,3 +202,5 @@
   Given I found a movie I want is available
   When I checkout the movie
   Then the checkout should be successful.
+
+  _Completed_

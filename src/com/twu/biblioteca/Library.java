@@ -12,14 +12,13 @@ public class Library {
     private List<Book> books = new ArrayList<>();
     private List<Movie> movies = new ArrayList<>();
 
-    public void addBook(String title, String author, int year) {
-        books.add(new Book(title, author, year));
+    public void addBook(String title, String year, String author) {
+        books.add(new Book(title, year, author));
     }
 
-    public void addMovie(String title, int year, String director, String rating) {
+    public void addMovie(String title, String year, String director, String rating) {
         movies.add(new Movie(title, year, director, rating));
     }
-
 
     public boolean listAvailableBooks() {
         return listAvailableMedia(books);
@@ -43,19 +42,18 @@ public class Library {
     }
 
     private void printMediaTable(List<? extends Media> listOfMedia) {
-        String[] mediaPropertyIDs = listOfMedia.get(0).getPropertyIDs();
-        int[] longestMediaProperty = new int[mediaPropertyIDs.length];
-        for (int i = 0; i < mediaPropertyIDs.length; i++) {
-            String currentMediaPropertyID = mediaPropertyIDs[i];
-            longestMediaProperty[i] = Math.max(Helper.getLongestStringLength(listOfMedia.stream().map(media -> media.getPropertyByID(currentMediaPropertyID))), currentMediaPropertyID.length());
-        }
-        printMediaRow(longestMediaProperty, mediaPropertyIDs);
-        listOfMedia.forEach(media -> printMediaRow(longestMediaProperty, media.getProperties()));
+        List<String> mediaPropertyIDs = listOfMedia.get(0).getPropertyIDs();
+        List<Integer> columnWidths = mediaPropertyIDs.stream()
+                .map(id -> Math.max(id.length(), Helper.getLongestStringLength(listOfMedia.stream()
+                        .map(media -> media.getPropertyByID(id))))).collect(Collectors.toList());
+
+        printMediaRow(columnWidths, mediaPropertyIDs);
+        listOfMedia.forEach(media -> printMediaRow(columnWidths, media.getProperties()));
     }
 
-    private void printMediaRow(int[] longestProperties, String[] properties) {
+    private void printMediaRow(List<Integer> columnWidths, List<String> properties) {
         StringBuilder builder = new StringBuilder();
-        IntStream.range(0, longestProperties.length).forEach(i -> builder.append(propertyWithSpaces(longestProperties[i], properties[i])));
+        IntStream.range(0, columnWidths.size()).forEach(i -> builder.append(propertyWithSpaces(columnWidths.get(i), properties.get(i))));
         Helper.print(builder.toString());
     }
 
@@ -90,7 +88,7 @@ public class Library {
     }
 
     private boolean handleMediaTransaction(String title, Function<Media, Boolean> function, List<? extends Media> listOfMedia) {
-        Optional<? extends Media> opMedia = listOfMedia.stream().filter(media -> media.getTitle().equals(title)).findAny();
+        Optional<? extends Media> opMedia = listOfMedia.stream().filter(media -> media.getPropertyByID("Title").equals(title)).findAny();
         return opMedia.isPresent() && function.apply(opMedia.get());
     }
 
