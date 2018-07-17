@@ -2,8 +2,6 @@ package com.twu.biblioteca;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -11,22 +9,6 @@ public class Library {
 
     private List<Book> books = new ArrayList<>();
     private List<Movie> movies = new ArrayList<>();
-
-    public void addBook(String title, String year, String author) {
-        books.add(new Book(title, year, author));
-    }
-
-    public void addMovie(String title, String year, String director, String rating) {
-        movies.add(new Movie(title, year, director, rating));
-    }
-
-    public boolean listAvailableBooks() {
-        return listAvailableMedia(books);
-    }
-
-    public boolean listAvailableMovies() {
-        return listAvailableMedia(movies);
-    }
 
     public boolean listAvailableMedia(List<? extends Media> listOfMedia) {
         List<? extends Media> listOfAvailableMedia = filterForAvailableMedia(listOfMedia);
@@ -60,36 +42,6 @@ public class Library {
     private String propertyWithSpaces(int longestProperty, String property) {
         int numSpaces = longestProperty - property.length() + 1;
         return property + IntStream.range(0, numSpaces).mapToObj(i -> " ").collect(Collectors.joining());
-    }
-
-
-    public boolean checkoutBook(String title) {
-        return checkoutMedia(title, books);
-    }
-
-    public boolean checkoutMovie(String title) {
-        return checkoutMedia(title, movies);
-    }
-
-    public boolean returnBook(String title) {
-        return returnMedia(title, books);
-    }
-
-    public boolean returnMovie(String title) {
-        return returnMedia(title, movies);
-    }
-
-    private boolean checkoutMedia(String title, List<? extends Media> listOfMedia) {
-        return handleMediaTransaction(title, (Media media) -> media.checkout(), listOfMedia);
-    }
-
-    private boolean returnMedia(String title, List<? extends Media> listOfMedia) {
-        return handleMediaTransaction(title, (Media media) -> media.giveBack(), listOfMedia);
-    }
-
-    private boolean handleMediaTransaction(String title, Function<Media, Boolean> function, List<? extends Media> listOfMedia) {
-        Optional<? extends Media> opMedia = listOfMedia.stream().filter(media -> media.getPropertyByID("Title").equals(title)).findAny();
-        return opMedia.isPresent() && function.apply(opMedia.get());
     }
 
     public List<Book> getBooks() {
