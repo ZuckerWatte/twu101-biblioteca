@@ -55,7 +55,7 @@ public class Library {
 
     private String propertyWithSpaces(int longestProperty, String property) {
         int numSpaces = longestProperty - property.length() + 1;
-        return property + IntStream.range(0, numSpaces).mapToObj(i -> " ").collect(Collectors.joining());
+        return property + IntStream.range(0, numSpaces).mapToObj(i -> " ").collect(Collectors.joining()) + "| ";
     }
 
     public List<Book> getBooks() {

@@ -16,6 +16,7 @@ public class Helper {
     }
 
     public static void print(String stringToPrint) {
-        System.out.println(stringToPrint);
+        if (!stringToPrint.isEmpty())
+            System.out.println(stringToPrint);
     }
 }

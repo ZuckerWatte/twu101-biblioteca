@@ -4,17 +4,13 @@ import java.util.*;
 
 public class BibliotecaApp {
 
-    public static final String WELCOME_MSG = "Welcome to Biblioteca!";
-    public static final String MAINMENU_MSG = "Type option command";
-    public static final String INVALIDOPT_MSG = "Select a valid option!";
-
 
     private LibraryControl libraryControl;
     private List<MenuOption> menuOptions;
 
     public static void main(String[] args) {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        Helper.print(WELCOME_MSG);
+        Helper.print(Constants.WELCOME_MSG);
         biblioteca.initLibrary();
         biblioteca.initMenuOptions();
         biblioteca.mainMenu();
@@ -34,45 +30,109 @@ public class BibliotecaApp {
 
     private void initMenuOptions() {
         menuOptions = new ArrayList<>();
-        menuOptions.add(new MenuOption("Login", "LI", "You are logged in!","Login failed. Wrong library number or password or somebody else is logged in.", "Please enter library number and password (separated by ;)",
-                (String loginCredentials) -> libraryControl.loginUser(loginCredentials.split(";")[0], loginCredentials.split(";")[1])));
-        menuOptions.add(new MenuOption("Logout", "LO", "You are logged out!", "Nobody was logged in!",
-                (String s) -> libraryControl.logoutUser()));
-        menuOptions.add(new MenuOption("List Books", "B", "These are all books that are available.","There are no books available.",
-                (String s) -> libraryControl.listAvailableBooks()));
-        menuOptions.add(new MenuOption("List Borrowed Books", "BB", "These are all books that belong to the library, but are currently unavailable.","All books are available. Use B-command to list available books.",
-                (String s) -> libraryControl.listBorrowedBooks()));
-        menuOptions.add(new MenuOption("Checkout Book", "CB", "Thank you enjoy the book!",
-                "That book is not available.", "Which book do you want to checkout?",
-                (String bookName) -> libraryControl.checkoutBook(bookName)));
-        menuOptions.add(new MenuOption("Return Book", "RB", "Thank you for returning the book!",
-                "That is not a valid book to return.", "Which book do you want to return?",
-                (String bookName) -> libraryControl.returnBook(bookName)));
-        menuOptions.add(new MenuOption("List Movies", "M", "These are all movies that are available.","There are no movies available.",
-                (String s) -> libraryControl.listAvailableMovies()));
-        menuOptions.add(new MenuOption("List Borrowed Movies", "BM", "These are all movies that belong to the library, but are currently unavailable.","All movies are available. Use B-command to list available movies.",
-                (String s) -> libraryControl.listBorrowedMovies()));
-        menuOptions.add(new MenuOption("Checkout Movie", "CM", "Thank you enjoy the movie!",
-                "That movie is not available.", "Which movie do you want to checkout?",
-                (String movieName) -> libraryControl.checkoutMovie(movieName)));
-        menuOptions.add(new MenuOption("Return Movie", "RM", "Thank you for returning the movie!",
-                "That is not a valid movie to return.", "Which movie do you want to return?",
-                (String movieName) -> libraryControl.returnMovie(movieName)));
-        menuOptions.add(new MenuOption("Quit", "Q",
+        menuOptions.add(new MenuOption(
+                Constants.MO_LOGIN_NAME,
+                Constants.MO_LOGIN_COMMAND,
+                Constants.MO_LOGIN_SUCCESS_MSG,
+                Constants.MO_LOGIN_FAILURE_MSG,
+                Constants.MO_LOGIN_INQUIRY_MSG,
+                (String loginCredentials) -> libraryControl.loginUser(loginCredentials.split(";")[0], loginCredentials.split(";")[1]),
+                false,
+                true));
+        menuOptions.add(new MenuOption(
+                Constants.MO_LOGOUT_NAME,
+                Constants.MO_LOGOUT_COMMAND,
+                Constants.MO_LOGOUT_SUCCESS_MSG,
+                Constants.MO_LOGOUT_FAILURE_MSG,
+                (String s) -> libraryControl.logoutUser(),
+                true,
+                false));
+        menuOptions.add(new MenuOption(
+                Constants.MO_LISTBOOKS_NAME,
+                Constants.MO_LISTBOOKS_COMMAND,
+                Constants.MO_LISTBOOKS_SUCCESS_MSG,
+                Constants.MO_LISTBOOKS_FAILURE_MSG,
+                (String s) -> libraryControl.listAvailableBooks(),
+                true,
+                true));
+        menuOptions.add(new MenuOption(
+                Constants.MO_LISTBORROWEDBOOKS_NAME,
+                Constants.MO_LISTBORROWEDBOOKS_COMMAND,
+                Constants.MO_LISTBORROWEDBOOKS_SUCCESS_MSG,
+                Constants.MO_LISTBORROWEDBOOKS_FAILURE_MSG,
+                (String s) -> libraryControl.listBorrowedBooks(),
+                true,
+                true));
+        menuOptions.add(new MenuOption(
+                Constants.MO_CHECKOUTBOOK_NAME,
+                Constants.MO_CHECKOUTBOOK_COMMAND,
+                Constants.MO_CHECKOUTBOOK_SUCCESS_MSG,
+                Constants.MO_CHECKOUTBOOK_FAILURE_MSG,
+                Constants.MO_CHECKOUTBOOK_INQUIRY_MSG,
+                (String bookName) -> libraryControl.checkoutBook(bookName),
+                true,
+                false));
+        menuOptions.add(new MenuOption(
+                Constants.MO_RETURNBOOK_NAME,
+                Constants.MO_RETURNBOOK_COMMAND,
+                Constants.MO_RETURNBOOK_SUCCESS_MSG,
+                Constants.MO_RETURNBOOK_FAILURE_MSG,
+                Constants.MO_RETURNBOOK_INQUIRY_MSG,
+                (String bookName) -> libraryControl.returnBook(bookName),
+                true,
+                false));
+        menuOptions.add(new MenuOption(
+                Constants.MO_LISTMOVIES_NAME,
+                Constants.MO_LISTMOVIES_COMMAND,
+                Constants.MO_LISTMOVIES_SUCCESS_MSG,
+                Constants.MO_LISTMOVIES_FAILURE_MSG,
+                (String s) -> libraryControl.listAvailableMovies(),
+                true,
+                true));
+        menuOptions.add(new MenuOption(
+                Constants.MO_LISTBORROWEDMOVIES_NAME,
+                Constants.MO_LISTBORROWEDMOVIES_COMMAND,
+                Constants.MO_LISTBORROWEDMOVIES_SUCCESS_MSG,
+                Constants.MO_LISTBORROWEDMOVIES_FAILURE_MSG,
+                (String s) -> libraryControl.listBorrowedMovies(),
+                true,
+                true));
+        menuOptions.add(new MenuOption(
+                Constants.MO_CHECKOUTMOVIE_NAME,
+                Constants.MO_CHECKOUTMOVIE_COMMAND,
+                Constants.MO_CHECKOUTMOVIE_SUCCESS_MSG,
+                Constants.MO_CHECKOUTMOVIE_FAILURE_MSG,
+                Constants.MO_CHECKOUTMOVIE_INQUIRY_MSG,
+                (String movieName) -> libraryControl.checkoutMovie(movieName),
+                true,
+                false));
+        menuOptions.add(new MenuOption(
+                Constants.MO_RETURNMOVIE_NAME,
+                Constants.MO_RETURNMOVIE_COMMAND,
+                Constants.MO_RETURNMOVIE_SUCCESS_MSG,
+                Constants.MO_RETURNMOVIE_FAILURE_MSG,
+                Constants.MO_RETURNMOVIE_INQUIRY_MSG,
+                (String movieName) -> libraryControl.returnMovie(movieName),
+                true,
+                false));
+        menuOptions.add(new MenuOption(
+                Constants.MO_QUIT_NAME,
+                Constants.MO_QUIT_COMMAND,
                 (String s) -> this.exit()));
     }
 
     public void mainMenu() {
-        Helper.print("\n" + MAINMENU_MSG);
-        menuOptions.forEach(m -> Helper.print(m.toString()));
+        boolean loggedInUser = libraryControl.getLoggedInUser() != null;
+        Helper.print("\n" + Constants.MAINMENU_MSG);
+        menuOptions.forEach(menuOption -> Helper.print(menuOption.toString(loggedInUser)));
         String upperCaseUserInput = Helper.readUserInput().toUpperCase();
-        selectMenuOption(upperCaseUserInput);
+        selectMenuOption(upperCaseUserInput, loggedInUser);
         mainMenu();
     }
 
-    private void selectMenuOption(String upperCaseUserInput) {
-        Optional<MenuOption> menuOption = menuOptions.stream().filter(m -> m.getCommand().equals(upperCaseUserInput)).findAny();
-        menuOption.ifPresentOrElse(mo -> mo.execute(), () -> Helper.print(INVALIDOPT_MSG));
+    private void selectMenuOption(String upperCaseUserInput, boolean loggedInUser) {
+        Optional<MenuOption> opMenuOption = menuOptions.stream().filter(menuOption -> menuOption.getCommand().equals(upperCaseUserInput)).findAny();
+        opMenuOption.ifPresentOrElse(menuOption -> menuOption.execute(loggedInUser), () -> Helper.print(Constants.INVALIDOPT_MSG));
     }
 
     public boolean exit() {

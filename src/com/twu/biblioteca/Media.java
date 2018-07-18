@@ -12,6 +12,7 @@ public abstract class Media {
     private User holder;
 
     public Media(String title, String year) {
+        this.propertyList.add(new Property("Holder", "Library"));
         this.propertyList.add(new Property("Title", title));
         this.propertyList.add(new Property("Year", year));
         this.available = true;
@@ -25,7 +26,7 @@ public abstract class Media {
         if (!available)
             return false;
 
-        this.holder = user;
+        updateHolder(user);
         return changeAvailability(true);
     }
 
@@ -33,8 +34,15 @@ public abstract class Media {
         if (this.holder != user)
             return false;
 
-        this.holder = null;
+        updateHolder(null);
         return changeAvailability(false);
+    }
+
+    private void updateHolder(User user) {
+        this.holder = user;
+        Property holder = propertyList.stream().filter(property -> property.getIdentifier().equals("Holder")).findAny().get();
+
+        holder.setValue(user == null ? "Library" : user.getLibraryNumber());
     }
 
     private boolean changeAvailability(boolean checkout) {
