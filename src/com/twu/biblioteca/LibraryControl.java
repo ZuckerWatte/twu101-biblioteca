@@ -46,14 +46,17 @@ public class LibraryControl {
     }
 
     private boolean checkoutMedia(String title, List<? extends Media> listOfMedia) {
-        return handleMediaTransaction(title, (Media media) -> media.checkout(), listOfMedia);
+        return handleMediaTransaction(title, (Media media) -> media.checkout(getLoggedInUser()), listOfMedia);
     }
 
     private boolean returnMedia(String title, List<? extends Media> listOfMedia) {
-        return handleMediaTransaction(title, (Media media) -> media.giveBack(), listOfMedia);
+        return handleMediaTransaction(title, (Media media) -> media.giveBack(getLoggedInUser()), listOfMedia);
     }
 
     private boolean handleMediaTransaction(String title, Function<Media, Boolean> function, List<? extends Media> listOfMedia) {
+        if (getLoggedInUser() == null)
+            return false;
+
         Optional<? extends Media> opMedia = listOfMedia.stream().filter(media -> media.getPropertyByID("Title").equals(title)).findAny();
         return opMedia.isPresent() && function.apply(opMedia.get());
     }
@@ -64,6 +67,10 @@ public class LibraryControl {
 
         Optional<User> opUser = library.getUsers().stream().filter(user -> user.getLibraryNumber().equals(libraryNumber)).findAny();
         return opUser.isPresent() && opUser.get().login(password);
+    }
+
+    public void logoutUser() {
+        getLoggedInUser().logout();
     }
 
     public User getLoggedInUser() {

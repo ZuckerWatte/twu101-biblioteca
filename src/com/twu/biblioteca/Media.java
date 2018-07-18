@@ -9,6 +9,8 @@ public abstract class Media {
     protected List<Property> propertyList = new ArrayList<>();
     private boolean available;
 
+    private User holder;
+
     public Media(String title, String year) {
         this.propertyList.add(new Property("Title", title));
         this.propertyList.add(new Property("Year", year));
@@ -19,11 +21,16 @@ public abstract class Media {
         return available;
     }
 
-    public boolean checkout() {
+    public boolean checkout(User user) {
+        this.holder = user;
         return changeAvailability(true);
     }
 
-    public boolean giveBack() {
+    public boolean giveBack(User user) {
+        if (this.holder != user)
+            return false;
+
+        this.holder = null;
         return changeAvailability(false);
     }
 
@@ -44,5 +51,9 @@ public abstract class Media {
     public String getPropertyByID(String propertyID) {
         return this.propertyList.stream().filter(property -> property.getIdentifier().equals(propertyID))
                 .map(property -> property.getValue()).findAny().orElse("");
+    }
+
+    public User getHolder() {
+        return holder;
     }
 }

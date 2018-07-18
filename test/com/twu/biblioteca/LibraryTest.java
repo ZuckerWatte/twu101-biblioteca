@@ -12,7 +12,7 @@ public class LibraryTest {
     public void testListBooks() {
         LibraryControl libraryControl = new LibraryControl();
         Library library = libraryControl.getLibrary();
-        assertEquals(true, library.filterForAvailableMedia(library.getBooks()).isEmpty());
+        assertTrue("Initial book list not empty", library.filterForAvailableMedia(library.getBooks()).isEmpty());
         libraryControl.addBook("book1", "2000", "");
         assertEquals("book1", library.filterForAvailableMedia(library.getBooks()).get(0).getPropertyByID("Title"));
         libraryControl.addBook("book2", "2000", "");
@@ -22,27 +22,33 @@ public class LibraryTest {
     @Test
     public void testOnlyAvailableBooksInList() {
         LibraryControl libraryControl = new LibraryControl();
+        libraryControl.addUser("111-2222", "password12");
+        libraryControl.loginUser("111-2222", "password12");
         Library library = libraryControl.getLibrary();
         libraryControl.addBook("book1", "2000", "");
         libraryControl.checkoutBook("book1");
-        assertEquals(true, library.filterForAvailableMedia(library.getBooks()).isEmpty());
+        assertTrue("Checked out books are listed", library.filterForAvailableMedia(library.getBooks()).isEmpty());
     }
 
     @Test
     public void testCheckoutBookFromLibrary() {
         LibraryControl libraryControl = new LibraryControl();
-        assertEquals(false, libraryControl.checkoutBook("book1"));
+        libraryControl.addUser("111-2222", "password12");
+        libraryControl.loginUser("111-2222", "password12");
+        assertFalse("Can check out non-existing book", libraryControl.checkoutBook("book1"));
         libraryControl.addBook("book1", "2000", "");
-        assertEquals(true, libraryControl.checkoutBook("book1"));
+        assertTrue("Can't check out available book", libraryControl.checkoutBook("book1"));
     }
 
     @Test
     public void testReturnBookToLibrary() {
         LibraryControl libraryControl = new LibraryControl();
-        assertEquals(false, libraryControl.returnBook("book1"));
+        libraryControl.addUser("111-2222", "password12");
+        libraryControl.loginUser("111-2222", "password12");
+        assertFalse("Can return non-existing book", libraryControl.returnBook("book1"));
         libraryControl.addBook("book1", "2000", "");
         libraryControl.checkoutBook("book1");
-        assertEquals(true, libraryControl.returnBook("book1"));
+        assertTrue("Can't return checked out book", libraryControl.returnBook("book1"));
     }
 
     /* Biblioteca Release 2 */
@@ -51,7 +57,7 @@ public class LibraryTest {
     public void testListMovies() {
         LibraryControl libraryControl = new LibraryControl();
         Library library = libraryControl.getLibrary();
-        assertEquals(true, library.filterForAvailableMedia(library.getMovies()).isEmpty());
+        assertTrue("Initial movie list not empty", library.filterForAvailableMedia(library.getMovies()).isEmpty());
         libraryControl.addMovie("movie1", "2000", "director1", "1");
         assertEquals("movie1", library.filterForAvailableMedia(library.getMovies()).get(0).getPropertyByID("Title"));
         libraryControl.addMovie("movie2", "2000", "director1", "1");
@@ -62,10 +68,12 @@ public class LibraryTest {
     public void testOnlyAvailableMovies() {
         LibraryControl libraryControl = new LibraryControl();
         Library library = libraryControl.getLibrary();
+        libraryControl.addUser("111-2222", "password12");
+        libraryControl.loginUser("111-2222", "password12");
         libraryControl.addMovie("movie1", "2000", "director1", "1");
-        assertEquals(true, library.filterForAvailableMedia(library.getMovies()).get(0).isAvailable());
+        assertTrue("Does not list available movie", library.filterForAvailableMedia(library.getMovies()).get(0).isAvailable());
         libraryControl.checkoutMovie("movie1");
-        assertEquals(true, library.filterForAvailableMedia(library.getMovies()).isEmpty());
+        assertTrue("Checked out movie is listed", library.filterForAvailableMedia(library.getMovies()).isEmpty());
     }
 
     @Test
@@ -77,6 +85,15 @@ public class LibraryTest {
     }
 
     @Test
+    public void testUserCanLogout() {
+        LibraryControl libraryControl = new LibraryControl();
+        libraryControl.addUser("111-2222", "password12");
+        libraryControl.loginUser("111-2222", "password12");
+        libraryControl.logoutUser();
+        assertTrue(libraryControl.getLoggedInUser() == null);
+    }
+
+    @Test
     public void testOnlyOneUserCanBeLoggedIn() {
         LibraryControl libraryControl = new LibraryControl();
         libraryControl.addUser("111-2222", "password12");
@@ -85,4 +102,15 @@ public class LibraryTest {
         assertFalse("Second user could login", libraryControl.loginUser("333-4444", "password34"));
     }
 
+    @Test
+    public void testCanOnlyCheckoutAndReturnWhenUserIsLoggedIn() {
+        LibraryControl libraryControl = new LibraryControl();
+        libraryControl.addUser("111-2222", "password12");
+        libraryControl.addMovie("movie1", "2000", "director1", "1");
+        assertFalse("No user logged in", libraryControl.checkoutMovie("movie1"));
+        libraryControl.loginUser("111-2222", "password12");
+        libraryControl.checkoutMovie("movie1");
+        libraryControl.logoutUser();
+        assertFalse("No user logged in", libraryControl.returnMovie("movie1"));
+    }
 }
