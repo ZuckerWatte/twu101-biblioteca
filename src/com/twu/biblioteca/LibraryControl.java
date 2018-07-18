@@ -16,6 +16,14 @@ public class LibraryControl {
         return library.listAvailableMedia(library.getMovies());
     }
 
+    public boolean listBorrowedBooks() {
+        return library.listBorrowedMedia(library.getBooks());
+    }
+
+    public boolean listBorrowedMovies() {
+        return library.listBorrowedMedia(library.getMovies());
+    }
+
     public void addBook(String title, String year, String author) {
         library.getBooks().add(new Book(title, year, author));
     }
@@ -69,8 +77,12 @@ public class LibraryControl {
         return opUser.isPresent() && opUser.get().login(password);
     }
 
-    public void logoutUser() {
+    public boolean logoutUser() {
+        if (getLoggedInUser() == null)
+            return false;
+
         getLoggedInUser().logout();
+        return true;
     }
 
     public User getLoggedInUser() {

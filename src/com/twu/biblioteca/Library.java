@@ -24,6 +24,19 @@ public class Library {
         return media.stream().filter(movie -> movie.isAvailable()).collect(Collectors.toList());
     }
 
+    public boolean listBorrowedMedia(List<? extends Media> listOfMedia) {
+        List<? extends Media> listOfBorrowedMedia = filterForBorrowedMedia(listOfMedia);
+        if (listOfBorrowedMedia.isEmpty())
+            return false;
+
+        printMediaTable(listOfBorrowedMedia);
+        return true;
+    }
+
+    public List<? extends Media> filterForBorrowedMedia(List<? extends Media> media) {
+        return media.stream().filter(movie -> !movie.isAvailable()).collect(Collectors.toList());
+    }
+
     private void printMediaTable(List<? extends Media> listOfMedia) {
         List<String> mediaPropertyIDs = listOfMedia.get(0).getPropertyIDs();
         List<Integer> columnWidths = mediaPropertyIDs.stream()

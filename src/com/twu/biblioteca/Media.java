@@ -22,6 +22,9 @@ public abstract class Media {
     }
 
     public boolean checkout(User user) {
+        if (!available)
+            return false;
+
         this.holder = user;
         return changeAvailability(true);
     }

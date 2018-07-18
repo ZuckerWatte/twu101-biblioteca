@@ -204,3 +204,13 @@
   Then the checkout should be successful.
 
   _Completed_
+
+## User Accounts - Login
+  As a librarian,
+  I want to know who has checked out a book,
+  so that I can hold them accountable for returning it.
+
+  ### Scenario 1:
+  Given a book is checked out
+  When I look at the list of borrowed books
+  Then I want to see the library number of the current book holder.
