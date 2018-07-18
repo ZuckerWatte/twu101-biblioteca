@@ -214,3 +214,9 @@
   Given a book is checked out
   When I look at the list of borrowed books
   Then I want to see the library number of the current book holder.
+
+  ### Scenario 2:
+    Given a customer has checked out a book
+    When they want to return it
+    Then they are only allowed to do it, if they are logged in
+

@@ -1,20 +1,15 @@
 package com.twu.biblioteca;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+public abstract class Media extends Listable {
 
-public abstract class Media {
-
-    protected List<Property> propertyList = new ArrayList<>();
     private boolean available;
 
     private User holder;
 
     public Media(String title, String year) {
-        this.propertyList.add(new Property("Holder", "Library"));
-        this.propertyList.add(new Property("Title", title));
-        this.propertyList.add(new Property("Year", year));
+        this.propertyList.add(new Property(Constants.PI_HOLDER, Constants.PV_LIBRARY));
+        this.propertyList.add(new Property(Constants.PI_TITLE, title));
+        this.propertyList.add(new Property(Constants.PI_YEAR, year));
         this.available = true;
     }
 
@@ -40,28 +35,15 @@ public abstract class Media {
 
     private void updateHolder(User user) {
         this.holder = user;
-        Property holder = propertyList.stream().filter(property -> property.getIdentifier().equals("Holder")).findAny().get();
+        Property holder = propertyList.stream().filter(property -> property.getIdentifier().equals(Constants.PI_HOLDER)).findAny().get();
 
-        holder.setValue(user == null ? "Library" : user.getLibraryNumber());
+        holder.setValue(user == null ? Constants.PV_LIBRARY : user.getPropertyByID(Constants.PI_LIBRARYNUMBER));
     }
 
     private boolean changeAvailability(boolean checkout) {
         boolean successful = checkout ? available : !available;
         available = !checkout;
         return successful;
-    }
-
-    public List<String> getPropertyIDs() {
-        return this.propertyList.stream().map(property -> property.getIdentifier()).collect(Collectors.toList());
-    }
-
-    public List<String> getProperties() {
-        return this.propertyList.stream().map(property -> property.getValue()).collect(Collectors.toList());
-    }
-
-    public String getPropertyByID(String propertyID) {
-        return this.propertyList.stream().filter(property -> property.getIdentifier().equals(propertyID))
-                .map(property -> property.getValue()).findAny().orElse("");
     }
 
     public User getHolder() {

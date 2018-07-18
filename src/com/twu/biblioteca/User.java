@@ -1,14 +1,16 @@
 package com.twu.biblioteca;
 
-public class User {
+public class User extends Listable {
 
     private boolean loginStatus;
-    private String libraryNumber;
     private String password;
 
-    public User(String libraryNumber, String password) {
-        this.libraryNumber = libraryNumber;
+    public User(String libraryNumber, String password, String name, String email, String phone) {
         this.password = password;
+        this.propertyList.add(new Property(Constants.PI_LIBRARYNUMBER, libraryNumber));
+        this.propertyList.add(new Property(Constants.PI_NAME, name));
+        this.propertyList.add(new Property(Constants.PI_EMAIL, email));
+        this.propertyList.add(new Property(Constants.PI_PHONE, phone));
     }
 
     public boolean login(String password){
@@ -27,7 +29,4 @@ public class User {
         return loginStatus;
     }
 
-    public String getLibraryNumber() {
-        return libraryNumber;
-    }
 }

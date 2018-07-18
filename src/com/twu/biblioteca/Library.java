@@ -1,6 +1,8 @@
 package com.twu.biblioteca;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -16,7 +18,7 @@ public class Library {
         if (listOfAvailableMedia.isEmpty())
             return false;
 
-        printMediaTable(listOfAvailableMedia);
+        printItemTable(listOfAvailableMedia);
         return true;
     }
 
@@ -29,7 +31,7 @@ public class Library {
         if (listOfBorrowedMedia.isEmpty())
             return false;
 
-        printMediaTable(listOfBorrowedMedia);
+        printItemTable(listOfBorrowedMedia);
         return true;
     }
 
@@ -37,17 +39,21 @@ public class Library {
         return media.stream().filter(movie -> !movie.isAvailable()).collect(Collectors.toList());
     }
 
-    private void printMediaTable(List<? extends Media> listOfMedia) {
-        List<String> mediaPropertyIDs = listOfMedia.get(0).getPropertyIDs();
-        List<Integer> columnWidths = mediaPropertyIDs.stream()
-                .map(id -> Math.max(id.length(), Helper.getLongestStringLength(listOfMedia.stream()
-                        .map(media -> media.getPropertyByID(id))))).collect(Collectors.toList());
-
-        printMediaRow(columnWidths, mediaPropertyIDs);
-        listOfMedia.forEach(media -> printMediaRow(columnWidths, media.getProperties()));
+    public void showUserDetails(User user) {
+        printItemTable(Arrays.asList(user));
     }
 
-    private void printMediaRow(List<Integer> columnWidths, List<String> properties) {
+    private void printItemTable(List<? extends Listable> listOfItems) {
+        List<String> propertyIDs = listOfItems.get(0).getPropertyIDs();
+        List<Integer> columnWidths = propertyIDs.stream()
+                .map(id -> Math.max(id.length(), Helper.getLongestStringLength(listOfItems.stream()
+                        .map(item -> item.getPropertyByID(id))))).collect(Collectors.toList());
+
+        printTableRow(columnWidths, propertyIDs);
+        listOfItems.forEach(item -> printTableRow(columnWidths, item.getProperties()));
+    }
+
+    private void printTableRow(List<Integer> columnWidths, List<String> properties) {
         StringBuilder builder = new StringBuilder();
         IntStream.range(0, columnWidths.size()).forEach(i -> builder.append(propertyWithSpaces(columnWidths.get(i), properties.get(i))));
         Helper.print(builder.toString());

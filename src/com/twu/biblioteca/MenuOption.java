@@ -31,8 +31,8 @@ public class MenuOption {
         this(name, command, successMsg, failureMsg, "", function, visibleForLoggedIn, visibleForLoggedOut);
     }
 
-    public MenuOption(String name, String command, Function<String, Boolean> function) {
-        this(name, command, "", "", function, true, true);
+    public MenuOption(String name, String command, Function<String, Boolean> function, boolean visibleForLoggedOut) {
+        this(name, command, "", "", function, true, visibleForLoggedOut);
     }
 
     public void execute(boolean loggedInUser) {

@@ -24,8 +24,8 @@ public class BibliotecaApp {
         libraryControl.addMovie("Pulp Fiction", "1994", "Quentin Tarantino", "9");
         libraryControl.addMovie("Lord of the Rings", "2001","Peter Jackson", "4");
         libraryControl.addMovie("Movie 3", "2000", "Arnie", "unrated");
-        libraryControl.addUser("111-1111", "pw1");
-        libraryControl.addUser("222-2222", "pw2");
+        libraryControl.addUser("111-1111", "pw1", "Hans Peter","hp@baxter.com", "+49175456789");
+        libraryControl.addUser("222-2222", "pw2", "Hanna Petra","hp@boxter.com", "+4329887663");
     }
 
     private void initMenuOptions() {
@@ -116,9 +116,15 @@ public class BibliotecaApp {
                 true,
                 false));
         menuOptions.add(new MenuOption(
+                Constants.MO_USERDETAILS_NAME,
+                Constants.MO_USERDETAILS_COMMAND,
+                (String s) -> libraryControl.showUserDetails(),
+                false));
+        menuOptions.add(new MenuOption(
                 Constants.MO_QUIT_NAME,
                 Constants.MO_QUIT_COMMAND,
-                (String s) -> this.exit()));
+                (String s) -> this.exit(),
+                true));
     }
 
     public void mainMenu() {

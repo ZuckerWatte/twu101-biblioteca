@@ -24,6 +24,13 @@ public class LibraryControl {
         return library.listBorrowedMedia(library.getMovies());
     }
 
+    public boolean showUserDetails() {
+        if(getLoggedInUser() == null)
+            return false;
+        library.showUserDetails(getLoggedInUser());
+        return true;
+    }
+
     public void addBook(String title, String year, String author) {
         library.getBooks().add(new Book(title, year, author));
     }
@@ -32,8 +39,8 @@ public class LibraryControl {
         library.getMovies().add(new Movie(title, year, director, rating));
     }
 
-    public void addUser(String libraryNumber, String password) {
-        library.getUsers().add(new User(libraryNumber, password));
+    public void addUser(String libraryNumber, String password, String name, String email, String phone) {
+        library.getUsers().add(new User(libraryNumber, password, name, email, phone));
     }
 
 
@@ -65,7 +72,7 @@ public class LibraryControl {
         if (getLoggedInUser() == null)
             return false;
 
-        Optional<? extends Media> opMedia = listOfMedia.stream().filter(media -> media.getPropertyByID("Title").equals(title)).findAny();
+        Optional<? extends Media> opMedia = listOfMedia.stream().filter(media -> media.getPropertyByID(Constants.PI_TITLE).equals(title)).findAny();
         return opMedia.isPresent() && function.apply(opMedia.get());
     }
 
@@ -73,7 +80,7 @@ public class LibraryControl {
         if (getLoggedInUser() != null)
             return false;
 
-        Optional<User> opUser = library.getUsers().stream().filter(user -> user.getLibraryNumber().equals(libraryNumber)).findAny();
+        Optional<User> opUser = library.getUsers().stream().filter(user -> user.getPropertyByID(Constants.PI_LIBRARYNUMBER).equals(libraryNumber)).findAny();
         return opUser.isPresent() && opUser.get().login(password);
     }
 

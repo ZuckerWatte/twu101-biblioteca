@@ -49,6 +49,21 @@ public class Constants {
     public static final String MO_RETURNMOVIE_SUCCESS_MSG = "Thank you for returning the movie!";
     public static final String MO_RETURNMOVIE_FAILURE_MSG = "That is not a valid movie to return.";
     public static final String MO_RETURNMOVIE_INQUIRY_MSG = "Which movie do you want to return?";
+    public static final String MO_USERDETAILS_NAME = "User Details";
+    public static final String MO_USERDETAILS_COMMAND = "U";
     public static final String MO_QUIT_NAME = "Quit";
     public static final String MO_QUIT_COMMAND = "Q";
+
+    public static final String PI_HOLDER = "Holder";
+    public static final String PI_TITLE = "Title";
+    public static final String PI_YEAR = "Year";
+    public static final String PI_LIBRARYNUMBER = "Library Number";
+    public static final String PI_NAME = "Name";
+    public static final String PI_EMAIL = "Email";
+    public static final String PI_PHONE = "Phone";
+    public static final String PI_RATING = "Rating";
+    public static final String PI_DIRECTOR = "Director";
+    public static final String PI_AUTHOR = "Author";
+
+    public static final String PV_LIBRARY = "Library";
 }
