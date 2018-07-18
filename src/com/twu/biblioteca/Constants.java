@@ -7,7 +7,7 @@ public class Constants {
     public static final String MO_LOGIN_SUCCESS_MSG = "You are logged in!";
     public static final String MO_LOGIN_NAME = "Login";
     public static final String MO_LOGIN_COMMAND = "LI";
-    public static final String MO_LOGIN_INQUIRY_MSG = "Please enter library number and password (separated by ;)";
+    public static final String MO_LOGIN_INQUIRY_MSG = "Please first enter your library number and afterwards your password";
     public static final String MO_LOGIN_FAILURE_MSG = "Login failed. Wrong library number or password or somebody else is logged in.";
     public static final String MO_LOGOUT_NAME = "Logout";
     public static final String MO_LOGOUT_COMMAND = "LO";

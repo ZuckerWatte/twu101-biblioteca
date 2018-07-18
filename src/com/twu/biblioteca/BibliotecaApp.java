@@ -36,7 +36,7 @@ public class BibliotecaApp {
                 Constants.MO_LOGIN_SUCCESS_MSG,
                 Constants.MO_LOGIN_FAILURE_MSG,
                 Constants.MO_LOGIN_INQUIRY_MSG,
-                (String loginCredentials) -> libraryControl.loginUser(loginCredentials.split(";")[0], loginCredentials.split(";")[1]),
+                (String username) -> libraryControl.loginUser(username, Helper.readUserInput()),
                 false,
                 true));
         menuOptions.add(new MenuOption(
