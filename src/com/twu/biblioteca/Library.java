@@ -9,6 +9,7 @@ public class Library {
 
     private List<Book> books = new ArrayList<>();
     private List<Movie> movies = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     public boolean listAvailableMedia(List<? extends Media> listOfMedia) {
         List<? extends Media> listOfAvailableMedia = filterForAvailableMedia(listOfMedia);
@@ -50,5 +51,9 @@ public class Library {
 
     public List<Movie> getMovies() {
         return movies;
+    }
+
+    public List<User> getUsers() {
+        return users;
     }
 }

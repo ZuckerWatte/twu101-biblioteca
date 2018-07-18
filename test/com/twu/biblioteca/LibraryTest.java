@@ -3,6 +3,8 @@ package com.twu.biblioteca;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class LibraryTest {
 
@@ -65,4 +67,22 @@ public class LibraryTest {
         libraryControl.checkoutMovie("movie1");
         assertEquals(true, library.filterForAvailableMedia(library.getMovies()).isEmpty());
     }
+
+    @Test
+    public void testUserCanLogin() {
+        LibraryControl libraryControl = new LibraryControl();
+        libraryControl.addUser("123-4567", "password2");
+        assertFalse("Non-existing user could login", libraryControl.loginUser("111-2222", "password2"));
+        assertTrue("User could not login", libraryControl.loginUser("123-4567", "password2"));
+    }
+
+    @Test
+    public void testOnlyOneUserCanBeLoggedIn() {
+        LibraryControl libraryControl = new LibraryControl();
+        libraryControl.addUser("111-2222", "password12");
+        libraryControl.addUser("333-4444", "password34");
+        libraryControl.loginUser("111-2222", "password12");
+        assertFalse("Second user could login", libraryControl.loginUser("333-4444", "password34"));
+    }
+
 }

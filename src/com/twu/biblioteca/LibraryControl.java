@@ -24,6 +24,10 @@ public class LibraryControl {
         library.getMovies().add(new Movie(title, year, director, rating));
     }
 
+    public void addUser(String libraryNumber, String password) {
+        library.getUsers().add(new User(libraryNumber, password));
+    }
+
 
     public boolean checkoutBook(String title) {
         return checkoutMedia(title, library.getBooks());
@@ -52,6 +56,18 @@ public class LibraryControl {
     private boolean handleMediaTransaction(String title, Function<Media, Boolean> function, List<? extends Media> listOfMedia) {
         Optional<? extends Media> opMedia = listOfMedia.stream().filter(media -> media.getPropertyByID("Title").equals(title)).findAny();
         return opMedia.isPresent() && function.apply(opMedia.get());
+    }
+
+    public boolean loginUser(String libraryNumber, String password) {
+        if (getLoggedInUser() != null)
+            return false;
+
+        Optional<User> opUser = library.getUsers().stream().filter(user -> user.getLibraryNumber().equals(libraryNumber)).findAny();
+        return opUser.isPresent() && opUser.get().login(password);
+    }
+
+    public User getLoggedInUser() {
+        return library.getUsers().stream().filter(user -> user.isLoggedIn()).findAny().orElse(null);
     }
 
     public Library getLibrary() {
